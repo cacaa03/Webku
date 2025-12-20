@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+    <link rel="stylesheet" href="styling.css">
+</head>
+
+<body>
+  <h2 class="topbar">Keranjang Belanja</h2>
+  <div id="cart"></div>
+  <p id="total"></p>
+  
+  <script>
+    const cart =
+    JSON.parse (localStorage.getItem("cart"))|| [];
+    const cartDiv = document.getElementById ("cart");
+    const totalP = document.getElementById ("total");
+    
+    let total=0;
+    
+cart.forEach((item, index) => {
+  const div = document.createElement("div");
+  
+  div.classList.add ("cart-Item");
+
+  div.innerHTML =
+      "<p>" +
+    item.nama + " - Rp " + item.harga +
+    "</p>" +
+    "<button onclick='kurang(" + index + ")'>−</button> " +
+     item.qty +
+    " <button onclick='tambah(" + index + ")'>+</button> " +
+    "<button onclick='hapusItem("+ index +")'>Hapus</button>";
+
+function hapusItem(index) {
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  location.reload();
+};
+
+window.hapusItem = function(index) {
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  location.reload();
+};
+
+  cartDiv.appendChild(div)
+  total += item.harga * item.qty;
+});
+    
+    totalP.textContent = "Total = Rp" + total ;
+    
+    window.tambah = function(index) {
+      cart [index].qty+=1;
+      localStorage.setItem ("cart", JSON.stringify (cart));
+      location.reload();
+    };
+    
+    window.kurang = function (index) {
+      cart [index] .qty-=1;
+      if (cart[index].qty<=0){
+        cart.splice(index,1);
+      };
+
+      localStorage.setItem ("cart", JSON.stringify(cart));
+      location.reload ();
+    };
+    
+  </script>
+  
+          <a class="btn" href="https://wa.me/6283823022283">Pesan Via Whatsapp</a>
+
+    <footer>
+    <p>© 2025 Toko Gue<br> syarat | ketentuan <br> Terima kasih</p>
+  </footer>
+  
+</body>
+
+</html>
